@@ -2,9 +2,10 @@ use std::path::{Path, PathBuf};
 use std::{env, fs};
 use std::io;
 use std::process::Command;
+use clap::ArgMatches;
 use crate::config::config::read_json_config;
 
-pub(crate) fn start_agent() -> io::Result<()> {
+pub(crate) fn start_agent(command: &ArgMatches) -> io::Result<()> {
 
     let config = read_json_config("./.ai/config.json").unwrap();
     let name = config.project.unwrap().name;
@@ -25,17 +26,25 @@ pub(crate) fn start_agent() -> io::Result<()> {
 
     println!("{}", sandbox_mount);
 
+    let mut args = vec!["run", "-d",
+                    "--name", name.as_str(),
+                    "-v", sandbox_mount.as_str(),
+                    "-v", "apt-cache:/var/cache/apt",
+                    "-v", "apt-lib:/var/lib/apt",
+                    "--rm",
+                    "--shm-size=512m"];
+
+    if let Some(ports) = command.get_many::<String>("port") {
+        for port in ports {
+            args.extend_from_slice(&["-p", port]);
+        }
+    }
+
+    args.push(name.as_str());
+
     Command::new("docker")
         .current_dir(&project_root)
-        .args(&["run", "-d",
-            "--name", name.as_str(),
-            "-v", sandbox_mount.as_str(),
-            "-v", "apt-cache:/var/cache/apt",
-            "-v", "apt-lib:/var/lib/apt",
-            "--rm",
-            "--shm-size=512m",
-            name.as_str(),
-        ])
+        .args(args.as_slice())
         .status()?;
 
     Ok(())

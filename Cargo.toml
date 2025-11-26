@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 axum = { version = "0.8", features = ["ws", "tracing", "macros", "multipart"] }
-axum-extra = { version = "0.10", features = ["typed-header"] }
+axum-extra = { version = "0.12", features = ["typed-header"] }
 base64 = "0.22.1"
 chrono = "0.4"
 clap = { version = "4.5", features = [] }
@@ -22,27 +22,34 @@ log = "0.4"
 env_logger={ version = "0.11", features = ["auto-color"] }
 uuid = { version = "1", features = ["v4"] }
 jsonwebtoken = "9"
-tonic = "0.12"
-prost = "0.13"
+tonic = "0.14"
+tonic-prost = "0.14"
+prost = "0.14"
 strum_macros = "0.27"
 async-trait = "0.1"
 reqwest = { version = "0.12", features = ["json", "multipart"] }
 metrics = "0.24"
-metrics-exporter-prometheus = "0.16"
+metrics-exporter-prometheus = "0.17"
 sqlx = { version = "0.8", features = ["runtime-async-std-native-tls", "mysql", "chrono", "uuid"] }
 minijinja = { version = "2", features = ["loader"] }
-rustworkx-core= {  version = "0.16" }
+rustworkx-core= {  version = "0.17" }
 regex = "1.11"
 rustls = {  version = "0.23", features = ["std", "tls12"] }
 ring = {  version = "0.17" }
 rustls-pemfile = { version = "2.2" }
 rsa = { version = "0.9" }
-rcgen = { version = "0.13" }
+rcgen = { version = "0.14" }
 base64-url = { version = "3" }
 pem = "3.0"
 rand = "0.9"
 rand_core = "0.9"
 ignore = { version = "0.4" }
+prost-types = "0.14"
+pbjson = "0.8"
+pbjson-types = "0.8"
 
-#[build-dependencies]
+[build-dependencies]
+pbjson-build = "0.8"
 #cargo-workspaces = "0.3.6"
+tonic-build = "0.14"
+tonic-prost-build = "0.14"

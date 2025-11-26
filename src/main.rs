@@ -1,6 +1,7 @@
 mod config;
 mod handler;
 mod error;
+pub mod a2a;
 mod cli;
 mod common;
 
@@ -75,7 +76,7 @@ async fn handle_agents_command(matches: ArgMatches, cli_command: &ArgMatches) {
         },
         Some(("start", sub_command)) => {
             debug!("enter: start agent");
-            start_agent().unwrap();
+            start_agent(sub_command).unwrap();
         },
         Some(("interact", sub_command)) => {
             debug!("enter: agent");

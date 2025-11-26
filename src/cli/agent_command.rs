@@ -9,7 +9,13 @@ pub(crate) fn create_agents_command() -> Command {
         .subcommand(create_sandbox_command())
         .subcommand(
             Command::new("start")
-                .about("Start agent").arg(arg!([NAME]))
+                .about("Start agent")
+                .arg(
+                    Arg::new("port")
+                        .long("port")
+                        .short('p')
+                )
+                .arg(arg!([NAME]))
         )
         .subcommand(
             Command::new("interact")
